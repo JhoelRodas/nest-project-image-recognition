@@ -11,7 +11,7 @@ export class AuthService {
     ){}
 
     async signIn(email: string, password:string){
-        const user = this.usersService.findOneEmail(email)
+        /*const user = this.usersService.findOneEmail(email)
         if(!user){
             return {msg:"user not found"}
         }
@@ -24,6 +24,6 @@ export class AuthService {
 
 
         const payload = { email: user.email, name: user.name}
-        return {access_token: await this.jwtService.signAsync(payload)}
+        return {access_token: await this.jwtService.signAsync(payload)}*/
     }
 }
