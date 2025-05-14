@@ -26,7 +26,8 @@ model Plan {
 model Organization {
   id            String               @id @default(cuid())
   name          String
-  creationDate  DateTime?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
   planId        String?
   plan          Plan?                @relation(fields: [planId], references: [id])
   members       OrganizationMember[]
@@ -40,9 +41,9 @@ model Organization {
 model User {
   id            String               @id @default(cuid())
   email         String               @unique
-  authProvider  AuthProvider         @default(email)
   password      String?
-  creationDate  DateTime?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
   memberships   OrganizationMember[]
   consultations Consultation[]
 }
@@ -67,7 +68,8 @@ model Patient {
   birthDate      DateTime
   phone          Int
   email          String?
-  creationDate   DateTime?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
   organizationId String
   organization   Organization         @relation(fields: [organizationId], references: [id])
   consultations  Consultation[]
@@ -88,7 +90,7 @@ model Diagnosis {
   id             String                  @id @default(cuid())
   name           String
   description    String
-  creationDate   DateTime?
+  creationDate   DateTime                @default(now())
   organizationId String
   organization   Organization            @relation(fields: [organizationId], references: [id])
   consultations  ConsultationDiagnosis[]
@@ -109,7 +111,7 @@ model Consultation {
   consultationDate DateTime
   motivo           String
   observaciones    String?
-  creationDate     DateTime?
+  creationDate     DateTime                @default(now())
   organizationId   String
   patientId        String
   userId           String
