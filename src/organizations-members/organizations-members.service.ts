@@ -1,26 +1,67 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrganizationsMemberDto } from './dto/create-organizations-member.dto';
 import { UpdateOrganizationsMemberDto } from './dto/update-organizations-member.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class OrganizationsMembersService {
-  create(createOrganizationsMemberDto: CreateOrganizationsMemberDto) {
-    return 'This action adds a new organizationsMember';
+  constructor(private prismaService: PrismaService) {}
+
+  async create(createOrganizationsMemberDto: CreateOrganizationsMemberDto) {
+  const { organizationId, userId, role } = createOrganizationsMemberDto;
+  const existingMember = await this.prismaService.organizationMember.findFirst({
+    where: {
+      organizationId,
+      userId,
+    },
+  });
+
+  if (existingMember) {
+    throw new Error('El usuario ya pertenece a esta organización');
   }
+  
+  return this.prismaService.organizationMember.create({
+    data: {
+      role,
+      organizationId,
+      userId,
+    },
+  });
+}
+
 
   findAll() {
-    return `This action returns all organizationsMembers`;
+    return this.prismaService.organizationMember.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} organizationsMember`;
+  findAllByOrganization(organizationId: string){
+    return this.prismaService.organizationMember.findMany({
+      where:{
+        organizationId:organizationId
+      }
+    })
   }
 
-  update(id: number, updateOrganizationsMemberDto: UpdateOrganizationsMemberDto) {
+  findOne(id: string) {
+    return this.prismaService.organizationMember.findFirst({
+      where:{
+        id:id
+      }
+    });
+  }
+
+  update(
+    id: string,
+    updateOrganizationsMemberDto: UpdateOrganizationsMemberDto,
+  ) {
     return `This action updates a #${id} organizationsMember`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} organizationsMember`;
+  remove(id: string) {
+    return this.prismaService.organizationMember.delete({
+      where:{
+        id:id
+      }
+    });
   }
 }

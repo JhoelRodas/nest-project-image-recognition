@@ -17,18 +17,23 @@ export class OrganizationsMembersController {
     return this.organizationsMembersService.findAll();
   }
 
+  @Get('organization:id')
+  findAllByOrganization(@Param('id') id: string){
+    return this.organizationsMembersService.findAllByOrganization(id)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.organizationsMembersService.findOne(+id);
+    return this.organizationsMembersService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrganizationsMemberDto: UpdateOrganizationsMemberDto) {
-    return this.organizationsMembersService.update(+id, updateOrganizationsMemberDto);
+    return this.organizationsMembersService.update(id, updateOrganizationsMemberDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.organizationsMembersService.remove(+id);
+    return this.organizationsMembersService.remove(id);
   }
 }
