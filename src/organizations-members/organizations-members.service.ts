@@ -46,6 +46,13 @@ export class OrganizationsMembersService {
     return this.prismaService.organizationMember.findMany({
       where:{
         userId:userId
+      },
+      include:{
+        organization:{
+          include:{
+            plan: true
+          }
+        }
       }
     })
   }
