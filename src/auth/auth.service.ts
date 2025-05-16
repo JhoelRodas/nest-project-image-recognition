@@ -14,17 +14,10 @@ export class AuthService {
   async signIn(signInDto: SignInDto) {
     const user = await this.usersService.findOneEmail(signInDto.email);
     if (!user) {
-      return { msg: 'user not found' };
+      await this.usersService.create({email:signInDto.email,password:signInDto.password})
     }
-    if(signInDto.auth_provider === 'email'){
-        const pass = user.password || '';
-        const result = await bcryptjs.compare(signInDto.password, pass);
-    
-        if (!result) {
-          throw new UnauthorizedException();
-        }
-    }
-    const payload = { email: user.email };
+
+    const payload = { email: signInDto.email };
     return { access_token: await this.jwtService.signAsync(payload) };
   }
 }

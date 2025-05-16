@@ -17,6 +17,11 @@ export class OrganizationsController {
     return this.organizationsService.findAll();
   }
 
+  @Get('user/:email')
+  findAllByUser(@Param('email') email:string) {
+    return this.organizationsService.findAllByUser(email);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.organizationsService.findOne(id);

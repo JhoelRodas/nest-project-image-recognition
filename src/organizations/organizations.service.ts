@@ -8,11 +8,9 @@ export class OrganizationsService {
   constructor(private prismaService: PrismaService) {}
 
   async create(createOrganizationDto: CreateOrganizationDto) {
-    const organization = await this.prismaService.organization.create({
+    return this.prismaService.organization.create({
       data: createOrganizationDto,
     });
-
-    return;
   }
 
   findAll() {
@@ -21,7 +19,9 @@ export class OrganizationsService {
 
   findAllByUser(email: string) {
     return this.prismaService.organization.findMany({
-      where: {},
+      where: {
+        hostUser:email
+      },
     });
   }
 

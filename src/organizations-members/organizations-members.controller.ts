@@ -17,9 +17,14 @@ export class OrganizationsMembersController {
     return this.organizationsMembersService.findAll();
   }
 
-  @Get('organization:id')
+  @Get('organization/:id')
   findAllByOrganization(@Param('id') id: string){
     return this.organizationsMembersService.findAllByOrganization(id)
+  }
+
+  @Get('user/:id')
+  findAllByUser(@Param('id') id: string){
+    return this.organizationsMembersService.findAllByUser(id)
   }
 
   @Get(':id')

@@ -42,6 +42,14 @@ export class OrganizationsMembersService {
     })
   }
 
+  findAllByUser(userId: string){
+    return this.prismaService.organizationMember.findMany({
+      where:{
+        userId:userId
+      }
+    })
+  }
+
   findOne(id: string) {
     return this.prismaService.organizationMember.findFirst({
       where:{
