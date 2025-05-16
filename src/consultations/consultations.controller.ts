@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ConsultationsService } from './consultations.service';
-import { CreateConsultationDto } from './dto/create-consultation.dto';
+import { CreateConsultationDto, CreateDiagnosisToConsultationDto } from './dto/create-consultation.dto';
 import { UpdateConsultationDto } from './dto/update-consultation.dto';
 
 @Controller('consultations')
@@ -12,6 +12,16 @@ export class ConsultationsController {
     return this.consultationsService.create(createConsultationDto);
   }
 
+  @Post('diagnosis')
+  addDiagnosisToConsultation(@Body() createDiagnosisToConsultationDto: CreateDiagnosisToConsultationDto) {
+    return this.consultationsService.addDiagnosisToConsultation(createDiagnosisToConsultationDto);
+  }
+
+  @Delete('diagnosis')
+  removeDiagnosisToConsultation(@Body() createDiagnosisToConsultationDto: CreateDiagnosisToConsultationDto) {
+    return this.consultationsService.removeDiagnosisToConsultation(createDiagnosisToConsultationDto);
+  }
+
   @Get()
   findAll() {
     return this.consultationsService.findAll();
@@ -19,16 +29,16 @@ export class ConsultationsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.consultationsService.findOne(+id);
+    return this.consultationsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateConsultationDto: UpdateConsultationDto) {
-    return this.consultationsService.update(+id, updateConsultationDto);
+    return this.consultationsService.update(id, updateConsultationDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.consultationsService.remove(+id);
+    return this.consultationsService.remove(id);
   }
 }

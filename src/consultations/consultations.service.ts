@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
-import { CreateConsultationDto } from './dto/create-consultation.dto';
+import { CreateConsultationDto, CreateDiagnosisToConsultationDto } from './dto/create-consultation.dto';
 import { UpdateConsultationDto } from './dto/update-consultation.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ConsultationsService {
+  constructor(private prismaService: PrismaService) {}
+
   create(createConsultationDto: CreateConsultationDto) {
-    return 'This action adds a new consultation';
+    return this.prismaService.consultation.create({
+      data:createConsultationDto
+    });
+  }
+
+  addDiagnosisToConsultation(createDiagnosisToConsultationDto: CreateDiagnosisToConsultationDto){
+    return this.prismaService.consultationDiagnosis.create({
+      data: createDiagnosisToConsultationDto
+    })
+  }
+
+  removeDiagnosisToConsultation(createDiagnosisToConsultationDto: CreateDiagnosisToConsultationDto){
+    return this.prismaService.consultationDiagnosis.delete({
+      where:{
+        consultationId_diagnosisId:{
+          consultationId: createDiagnosisToConsultationDto.consultationId,
+          diagnosisId: createDiagnosisToConsultationDto.diagnosisId
+        }
+      }
+    })
   }
 
   findAll() {
-    return `This action returns all consultations`;
+    return this.prismaService.consultation.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} consultation`;
+  findOne(id: string) {
+    return this.prismaService.consultation.findFirst({
+      where:{
+        id:id
+      }
+    });
   }
 
-  update(id: number, updateConsultationDto: UpdateConsultationDto) {
+  update(id: string, updateConsultationDto: UpdateConsultationDto) {
     return `This action updates a #${id} consultation`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} consultation`;
+  remove(id: string) {
+    return this.prismaService.consultation.delete({
+      where:{
+        id:id
+      }
+    });
   }
 }

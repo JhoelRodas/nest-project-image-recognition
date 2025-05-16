@@ -17,18 +17,23 @@ export class DiagnosesController {
     return this.diagnosesService.findAll();
   }
 
+  @Get('organization/:id')
+  findAllByOrganization(@Param('id') id:string) {
+    return this.diagnosesService.findAllByOrganization(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.diagnosesService.findOne(+id);
+    return this.diagnosesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDiagnosisDto: UpdateDiagnosisDto) {
-    return this.diagnosesService.update(+id, updateDiagnosisDto);
+    return this.diagnosesService.update(id, updateDiagnosisDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.diagnosesService.remove(+id);
+    return this.diagnosesService.remove(id);
   }
 }
