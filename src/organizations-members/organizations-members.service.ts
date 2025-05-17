@@ -50,7 +50,11 @@ export class OrganizationsMembersService {
       include:{
         organization:{
           include:{
-            plan: true
+            subscriptions:{
+              include:{
+                plan:true
+              }
+            }
           }
         }
       }

@@ -17,6 +17,16 @@ export class SubscriptionsController {
     return this.subscriptionsService.findAll();
   }
 
+  @Get('organization/:id')
+  findAllByOrganization(@Param('id') id: string) {
+    return this.subscriptionsService.findAllByOrganization(id);
+  }
+
+  @Get('user/:id')
+  findAllByUser(@Param('id') id: string) {
+    return this.subscriptionsService.findAllByUser(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.subscriptionsService.findOne(id);
