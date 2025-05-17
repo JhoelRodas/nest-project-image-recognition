@@ -1,21 +1,58 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class SubscriptionsService {
+  constructor(
+    private prismaService: PrismaService
+  ){}
 
-  
   create(createSubscriptionDto: CreateSubscriptionDto) {
-    return 'This action adds a new subscription';
+    return this.prismaService.subscription.create({
+      data:{
+        organizationId: createSubscriptionDto.organizationId,
+        planId: createSubscriptionDto.planId,
+        startDate: new Date(),
+        endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)), // 1 mes
+      }
+    });
   }
 
   findAll() {
-    return `This action returns all subscriptions`;
+    return this.prismaService.subscription.findMany();
+  }
+
+  findAllByOrganization(organizationId: string){
+    return this.prismaService.subscription.findMany({
+      where:{
+        organizationId: organizationId
+      },
+      include:{
+        plan: true
+      }
+    })
+  }
+
+  findAllByUser(userEmail: string){
+    return this.prismaService.subscription.findMany({
+      where:{
+        organization:{
+          is:{
+            hostUser: userEmail
+          }
+        }
+      }
+    })
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} subscription`;
+    return this.prismaService.subscription.findFirst({
+      where:{
+        id:id
+      }
+    });
   }
 
   update(id: string, updateSubscriptionDto: UpdateSubscriptionDto) {
@@ -23,6 +60,10 @@ export class SubscriptionsService {
   }
 
   remove(id: string) {
-    return `This action removes a #${id} subscription`;
+    return this.prismaService.subscription.delete({
+      where:{
+        id: id
+      }
+    });
   }
 }
