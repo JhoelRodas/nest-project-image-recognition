@@ -12,5 +12,11 @@ export class CreatePlanDto {
     limitMembers: number;
     @IsNumber()
     @IsNotEmpty()
+    limitModelUses: number;
+    @IsNumber()
+    @IsNotEmpty()
     price: number;
+    @IsNumber()
+    @IsNotEmpty()
+    durationInDays: number;
 }
