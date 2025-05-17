@@ -15,28 +15,44 @@ datasource db {
 }
 
 model Plan {
-  id            String         @id @default(cuid())
-  name          String
-  description   String
-  limitMembers  Int
-  price         Float
-  organizations Organization[]
+  id             String         @id @default(cuid())
+  name           String
+  description    String
+  limitMembers   Int
+  limitModelUses Int
+  price          Float
+  durationInDays Int
+  subscriptions  Subscription[]
 }
 
 model Organization {
-  id            String               @id @default(cuid())
+  id            String   @id @default(cuid())
   name          String
   hostUser      String
-  createdAt     DateTime             @default(now())
-  updatedAt     DateTime             @updatedAt
-  planId        String?
-  plan          Plan?                @relation(fields: [planId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  planStartDate DateTime
+  
   members       OrganizationMember[]
   patients      Patient[]
   consultations Consultation[]
   appointments  MedicalAppointment[]
   diagnoses     Diagnosis[]
   treatments    Treatment[]
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id             String       @id @default(cuid())
+  organizationId String
+  planId         String
+  plan           Plan         @relation(fields: [planId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  startDate      DateTime
+  endDate        DateTime
+  modelUsesCount Int          @default(0)
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
 }
 
 model User {
