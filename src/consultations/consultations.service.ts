@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateConsultationDto, CreateDiagnosisToConsultationDto } from './dto/create-consultation.dto';
+import { CreateConsultationDto, CreateDiagnosisToConsultationDto, CreateTreatmentToConsultationDto } from './dto/create-consultation.dto';
 import { UpdateConsultationDto } from './dto/update-consultation.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -25,6 +25,23 @@ export class ConsultationsService {
         consultationId_diagnosisId:{
           consultationId: createDiagnosisToConsultationDto.consultationId,
           diagnosisId: createDiagnosisToConsultationDto.diagnosisId
+        }
+      }
+    })
+  }
+
+  addTreatmentToConsultation(createTreatmentToConsultationDto: CreateTreatmentToConsultationDto){
+    return this.prismaService.consultationTreatment.create({
+      data: createTreatmentToConsultationDto
+    })
+  }
+
+  removeTreatmentToConsultation(createTreatmentToConsultationDto: CreateTreatmentToConsultationDto){
+    return this.prismaService.consultationTreatment.delete({
+      where:{
+        consultationId_treatmentId:{
+          consultationId: createTreatmentToConsultationDto.consultationId,
+          treatmentId: createTreatmentToConsultationDto.treatmentId
         }
       }
     })

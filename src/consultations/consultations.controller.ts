@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ConsultationsService } from './consultations.service';
-import { CreateConsultationDto, CreateDiagnosisToConsultationDto } from './dto/create-consultation.dto';
+import { CreateConsultationDto, CreateDiagnosisToConsultationDto, CreateTreatmentToConsultationDto } from './dto/create-consultation.dto';
 import { UpdateConsultationDto } from './dto/update-consultation.dto';
 
 @Controller('consultations')
@@ -20,6 +20,16 @@ export class ConsultationsController {
   @Delete('diagnosis')
   removeDiagnosisToConsultation(@Body() createDiagnosisToConsultationDto: CreateDiagnosisToConsultationDto) {
     return this.consultationsService.removeDiagnosisToConsultation(createDiagnosisToConsultationDto);
+  }
+
+  @Post('treatment')
+  addTreatmentToConsultation(@Body() createTreatmentToConsultationDto: CreateTreatmentToConsultationDto) {
+    return this.consultationsService.addTreatmentToConsultation(createTreatmentToConsultationDto);
+  }
+
+  @Delete('treatment')
+  removeTreatmentToConsultation(@Body() createTreatmentToConsultationDto: CreateTreatmentToConsultationDto) {
+    return this.consultationsService.removeTreatmentToConsultation(createTreatmentToConsultationDto);
   }
 
   @Get()

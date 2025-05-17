@@ -38,6 +38,72 @@ export class DiagnosesService {
     });
   }
 
+  findAllByUserAndOrganization(userId: string,organizationId:string){
+    return this.prismaService.diagnosis.findMany({
+      where:{
+        organizationId: organizationId,
+        consultations:{
+          some:{
+            consultation:{
+              userId: userId
+            }
+          }
+        }
+      },
+      include:{
+        consultations:{
+          include:{
+            consultation:{
+              select:{
+                id: true,
+                consultationDate: true,
+                motivo: true,
+                patient:{
+                  select:{
+                    name:true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+  }
+
+  findAllByPatientAndOrganization(patientId: string,organizationId:string){
+    return this.prismaService.diagnosis.findMany({
+      where:{
+        organizationId: organizationId,
+        consultations:{
+          some:{
+            consultation:{
+              patientId: patientId
+            }
+          }
+        }
+      },
+      include:{
+        consultations:{
+          include:{
+            consultation:{
+              select:{
+                id: true,
+                consultationDate: true,
+                motivo: true,
+                patient:{
+                  select:{
+                    name:true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+  }
+
   findOne(id: string) {
     return this.prismaService.diagnosis.findFirst({
       where: {

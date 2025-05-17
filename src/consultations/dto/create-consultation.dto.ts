@@ -29,3 +29,12 @@ export class CreateDiagnosisToConsultationDto{
     @IsNotEmpty()
     diagnosisId: string
 }
+
+export class CreateTreatmentToConsultationDto{
+    @IsString()
+    @IsNotEmpty()
+    consultationId: string
+    @IsString()
+    @IsNotEmpty()
+    treatmentId: string
+}

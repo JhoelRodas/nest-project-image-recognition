@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { DiagnosesService } from './diagnoses.service';
 import { CreateDiagnosisDto } from './dto/create-diagnosis.dto';
 import { UpdateDiagnosisDto } from './dto/update-diagnosis.dto';
@@ -18,8 +27,24 @@ export class DiagnosesController {
   }
 
   @Get('organization/:id')
-  findAllByOrganization(@Param('id') id:string) {
+  findAllByOrganization(@Param('id') id: string) {
     return this.diagnosesService.findAllByOrganization(id);
+  }
+
+  @Get('by-user-org')
+  findByUserAndOrg(
+    @Query('userId') userId: string,
+    @Query('orgId') orgId: string,
+  ) {
+    return this.diagnosesService.findAllByUserAndOrganization(userId, orgId);
+  }
+
+  @Get('by-pat-org')
+  findByPatientAndOrg(
+    @Query('patId') patId: string,
+    @Query('orgId') orgId: string,
+  ) {
+    return this.diagnosesService.findAllByPatientAndOrganization(patId, orgId);
   }
 
   @Get(':id')
@@ -28,7 +53,10 @@ export class DiagnosesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDiagnosisDto: UpdateDiagnosisDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateDiagnosisDto: UpdateDiagnosisDto,
+  ) {
     return this.diagnosesService.update(id, updateDiagnosisDto);
   }
 
