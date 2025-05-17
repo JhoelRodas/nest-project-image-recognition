@@ -20,7 +20,7 @@ export class OrganizationsService {
   findAllByUser(email: string) {
     return this.prismaService.organization.findMany({
       where: {
-        hostUser:email
+        hostUser: email
       },
     });
   }
