@@ -1,4 +1,5 @@
 import { IsString, IsOptional, IsDate, IsInt, IsEmail } from 'class-validator';
+import { Type } from 'class-transformer'; 
 
 export class CreatePatientDto {
   @IsString()
@@ -16,6 +17,7 @@ export class CreatePatientDto {
   sexo: string;
 
   @IsDate()
+  @Type(() => Date)  // <-- Aquí la transformación para convertir string a Date
   birthDate: Date;
 
   @IsInt()
