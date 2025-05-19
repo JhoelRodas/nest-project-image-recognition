@@ -77,6 +77,7 @@ model OrganizationMember {
 
 model Patient {
   id             String               @id @default(cuid())
+  identificationNumber String
   name           String
   aPaternal      String?
   aMaternal      String?
@@ -90,12 +91,12 @@ model Patient {
   organization   Organization         @relation(fields: [organizationId], references: [id])
   consultations  Consultation[]
   appointments   MedicalAppointment[]
+  @@unique([organizationId, identificationNumber])
 }
 
 model MedicalAppointment {
   id              String       @id @default(cuid())
-  appointmentDate DateTime
-  appointmentTime DateTime
+  appointmentDateTime DateTime
   patientId       String
   organizationId  String
   patient         Patient      @relation(fields: [patientId], references: [id])

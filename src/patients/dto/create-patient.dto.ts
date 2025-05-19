@@ -3,6 +3,9 @@ import { Type } from 'class-transformer';
 
 export class CreatePatientDto {
   @IsString()
+  identificationNumber: string;
+
+  @IsString()
   name: string;
 
   @IsString()
