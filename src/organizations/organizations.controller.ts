@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
@@ -18,8 +18,8 @@ export class OrganizationsController {
   }
 
   @Get('user/:email')
-  findAllByUser(@Param('email') email:string) {
-    return this.organizationsService.findAllByUser(email);
+  findAllByUser(@Query('isActive') isActive:boolean ,@Param('email') email:string) {
+    return this.organizationsService.findAllByUser(email,isActive);
   }
 
   @Get(':id')

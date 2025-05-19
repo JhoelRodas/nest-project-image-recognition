@@ -9,7 +9,17 @@ export class SubscriptionsService {
     private prismaService: PrismaService
   ){}
 
-  create(createSubscriptionDto: CreateSubscriptionDto) {
+  async create(createSubscriptionDto: CreateSubscriptionDto) {
+    await this.prismaService.subscription.updateMany({
+      data:{
+        isActive: false
+      },
+      where:{
+        organizationId: createSubscriptionDto.organizationId,
+        planId: createSubscriptionDto.planId
+      }
+    })
+    
     return this.prismaService.subscription.create({
       data:{
         organizationId: createSubscriptionDto.organizationId,

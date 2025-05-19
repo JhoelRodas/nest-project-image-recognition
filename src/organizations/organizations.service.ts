@@ -17,11 +17,21 @@ export class OrganizationsService {
     return this.prismaService.organization.findMany();
   }
 
-  findAllByUser(email: string) {
+  findAllByUser(email: string,isActive:boolean) {
     return this.prismaService.organization.findMany({
       where: {
         hostUser:email
       },
+      include:{
+        subscriptions:{
+          where:{
+            isActive: isActive
+          },
+          include:{
+            plan:true
+          }
+        }
+      }
     });
   }
 
