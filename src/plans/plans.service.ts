@@ -9,7 +9,7 @@ export class PlansService {
 
   async create(createPlanDto: CreatePlanDto) {
     const plan = await this.findOneName(createPlanDto.name);
-    if (!plan) return 'ya existe un plan con ese nombre';
+    if (plan) return 'ya existe un plan con ese nombre';
     return this.prismaService.plan.create({
       data: createPlanDto,
     });
