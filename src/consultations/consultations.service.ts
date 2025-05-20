@@ -51,6 +51,30 @@ export class ConsultationsService {
     return this.prismaService.consultation.findMany();
   }
 
+  findAllByOrganization(id: string){
+    return this.prismaService.consultation.findMany({
+      where:{
+        organizationId:id
+      }
+    })
+  }
+
+  findAllByUser(id: string){
+    return this.prismaService.consultation.findMany({
+      where:{
+        userId:id
+      }
+    })
+  }
+
+  findAllByPatient(id: string){
+    return this.prismaService.consultation.findMany({
+      where:{
+        patientId:id
+      }
+    })
+  }
+
   findOne(id: string) {
     return this.prismaService.consultation.findFirst({
       where:{
