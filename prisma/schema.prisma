@@ -106,11 +106,11 @@ model AttentionHour {
 }
 
 model AttentionHourUser {
-  id              String        @id @default(cuid())
   userId          String
   attentionHourId String
   user            User          @relation(fields: [userId], references: [id])
   attentionHour   AttentionHour @relation(fields: [attentionHourId], references: [id])
+  @@id([userId,attentionHourId])
 }
 
 model MedicalAppointment {
@@ -145,10 +145,9 @@ model Treatment {
 
 model Consultation {
   id               String                  @id @default(cuid())
-  consultationDate DateTime
   motivo           String
   observaciones    String?
-  creationDate     DateTime                @default(now())
+  consultationDate DateTime                @default(now())
   organizationId   String
   patientId        String
   userId           String
