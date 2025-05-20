@@ -26,19 +26,20 @@ model Plan {
 }
 
 model Organization {
-  id            String   @id @default(cuid())
-  name          String
-  hostUser      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  hostUser  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  members       OrganizationMember[]
-  patients      Patient[]
-  consultations Consultation[]
-  appointments  MedicalAppointment[]
-  diagnoses     Diagnosis[]
-  treatments    Treatment[]
-  subscriptions Subscription[]
+  members        OrganizationMember[]
+  patients       Patient[]
+  consultations  Consultation[]
+  appointments   MedicalAppointment[]
+  diagnoses      Diagnosis[]
+  treatments     Treatment[]
+  subscriptions  Subscription[]
+  attentionHours AttentionHour[]
 }
 
 model Subscription {
@@ -55,13 +56,14 @@ model Subscription {
 }
 
 model User {
-  id            String               @id @default(cuid())
-  email         String               @unique
-  password      String?
-  createdAt     DateTime             @default(now())
-  updatedAt     DateTime             @updatedAt
-  memberships   OrganizationMember[]
-  consultations Consultation[]
+  id                 String               @id @default(cuid())
+  email              String               @unique
+  password           String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  memberships        OrganizationMember[]
+  consultations      Consultation[]
+  attentionHourUsers AttentionHourUser[]
 }
 
 model OrganizationMember {
@@ -84,7 +86,8 @@ model Patient {
   sexo           String
   birthDate      DateTime
   phone          Int
-  email          String?
+  email          String
+  ci             Int
   createdAt      DateTime             @default(now())
   updatedAt      DateTime             @updatedAt
   organizationId String
@@ -92,6 +95,24 @@ model Patient {
   consultations  Consultation[]
   appointments   MedicalAppointment[]
   @@unique([organizationId, identificationNumber])
+}
+
+model AttentionHour {
+  id                 String              @id @default(cuid())
+  days               String[]
+  startTime          DateTime
+  endTime            DateTime
+  organizationId     String
+  organization       Organization        @relation(fields: [organizationId], references: [id])
+  attentionHourUsers AttentionHourUser[]
+}
+
+model AttentionHourUser {
+  userId          String
+  attentionHourId String
+  user            User          @relation(fields: [userId], references: [id])
+  attentionHour   AttentionHour @relation(fields: [attentionHourId], references: [id])
+  @@id([userId,attentionHourId])
 }
 
 model MedicalAppointment {
@@ -125,10 +146,9 @@ model Treatment {
 
 model Consultation {
   id               String                  @id @default(cuid())
-  consultationDate DateTime
   motivo           String
   observaciones    String?
-  creationDate     DateTime                @default(now())
+  consultationDate DateTime                @default(now())
   organizationId   String
   patientId        String
   userId           String

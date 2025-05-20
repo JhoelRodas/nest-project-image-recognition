@@ -13,6 +13,7 @@ import { DiagnosesModule } from './diagnoses/diagnoses.module';
 import { TreatmentsModule } from './treatments/treatments.module';
 import { ConsultationsModule } from './consultations/consultations.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { AttentionHourModule } from './attention-hour/attention-hour.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
     TreatmentsModule,
     ConsultationsModule,
     SubscriptionsModule,
+    AttentionHourModule,
   ],
   controllers: [AppController],
   providers: [AppService],
