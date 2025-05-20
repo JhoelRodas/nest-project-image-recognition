@@ -2,8 +2,8 @@ import { IsString, IsOptional, IsDate, IsInt, IsEmail } from 'class-validator';
 import { Type } from 'class-transformer'; 
 
 export class CreatePatientDto {
-  @IsString()
-  identificationNumber: string;
+  @IsInt()
+  ci: number;
 
   @IsString()
   name: string;
@@ -27,8 +27,7 @@ export class CreatePatientDto {
   phone: number;
 
   @IsEmail()
-  @IsOptional()
-  email?: string;
+  email: string;
 
   @IsString()
   organizationId: string;
