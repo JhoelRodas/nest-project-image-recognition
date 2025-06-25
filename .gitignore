@@ -59,4 +59,4 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Firebase credentials
-/dermai-a9c48-firebase-adminsdk-fbsvc-7a05a7fee2.json
+# /dermai-a9c48-firebase-adminsdk-fbsvc-7a05a7fee2.json
